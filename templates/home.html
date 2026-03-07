@@ -1,0 +1,638 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ==================== HERO SLIDER ==================== -->
+<section id="home" class="relative h-screen w-full overflow-hidden">
+    {% if hero_slides %}
+    <!-- Dynamic slides from database -->
+    {% for slide in hero_slides %}
+    <div class="hero-slide absolute inset-0 transition-opacity duration-1000 {% if forloop.first %}opacity-100{% else %}opacity-0{% endif %}">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60 z-10"></div>
+        <img src="{{ slide.image.url }}" alt="{{ slide.title }}" class="w-full h-full object-cover">
+    </div>
+    {% endfor %}
+    {% else %}
+    <!-- Fallback static slides -->
+    <div class="hero-slide absolute inset-0 transition-opacity duration-1000 opacity-100">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60 z-10"></div>
+        <img src="{% static 'images/Garden_party_with_fairy_lights_c450bf55.png' %}" alt="Transform Your Special Moments" class="w-full h-full object-cover">
+    </div>
+    <div class="hero-slide absolute inset-0 transition-opacity duration-1000 opacity-0">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60 z-10"></div>
+        <img src="{% static 'images/Wedding_venue_with_romantic_lighting_8e02b9ec.png' %}" alt="Elegant Lighting" class="w-full h-full object-cover">
+    </div>
+    <div class="hero-slide absolute inset-0 transition-opacity duration-1000 opacity-0">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60 z-10"></div>
+        <img src="{% static 'images/Christmas_luxury_lighting_display_629dbbd6.png' %}" alt="Professional Installation" class="w-full h-full object-cover">
+    </div>
+    {% endif %}
+
+    <!-- Hero Text Overlay -->
+    <div class="relative z-20 h-full flex flex-col items-center justify-center text-center px-6">
+        <h1 id="hero-title" class="font-serif text-5xl md:text-7xl font-bold text-white mb-6 max-w-5xl">
+            Transform Your Special Moments with Luxurious Outdoor Lighting
+        </h1>
+        <p id="hero-subtitle" class="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl">
+            Premium light decoration rentals for unforgettable celebrations
+        </p>
+        <div class="flex gap-4 flex-wrap justify-center">
+            <a href="#products" class="inline-flex items-center px-8 py-4 text-base font-medium uppercase tracking-wider rounded-lg bg-amber-500 text-white hover:bg-amber-600 transition-colors">
+                Explore Packages
+            </a>
+            <a href="#contact" class="inline-flex items-center px-8 py-4 text-base font-medium uppercase tracking-wider rounded-lg bg-white/10 backdrop-blur-md border border-white/30 text-white hover:bg-white/20 transition-colors">
+                Get a Quote
+            </a>
+        </div>
+    </div>
+
+    <!-- Slider Navigation -->
+    <button id="prev-slide" class="absolute left-6 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-white hover:bg-white/20 transition-colors" aria-label="Previous slide">
+        <i data-lucide="chevron-left" class="w-6 h-6"></i>
+    </button>
+    <button id="next-slide" class="absolute right-6 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-white hover:bg-white/20 transition-colors" aria-label="Next slide">
+        <i data-lucide="chevron-right" class="w-6 h-6"></i>
+    </button>
+
+    <!-- Slide Indicators -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex gap-2" id="slide-indicators">
+    </div>
+</section>
+
+<!-- ==================== STATS BAR ==================== -->
+<section class="bg-gray-50 border-y py-12">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="flex flex-col items-center text-center gap-4">
+                <div class="text-amber-500">
+                    <i data-lucide="users" class="w-8 h-8"></i>
+                </div>
+                <div class="font-serif text-4xl md:text-5xl font-bold text-gray-800">500+</div>
+                <div class="text-lg text-gray-500">Happy Clients</div>
+            </div>
+            <div class="flex flex-col items-center text-center gap-4">
+                <div class="text-amber-500">
+                    <i data-lucide="sparkles" class="w-8 h-8"></i>
+                </div>
+                <div class="font-serif text-4xl md:text-5xl font-bold text-gray-800">1000+</div>
+                <div class="text-lg text-gray-500">Successful Events</div>
+            </div>
+            <div class="flex flex-col items-center text-center gap-4">
+                <div class="text-amber-500">
+                    <i data-lucide="award" class="w-8 h-8"></i>
+                </div>
+                <div class="font-serif text-4xl md:text-5xl font-bold text-gray-800">100%</div>
+                <div class="text-lg text-gray-500">Quality Guaranteed</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== FEATURED PRODUCTS ==================== -->
+<section id="products" class="py-20 md:py-32">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="font-serif text-4xl md:text-5xl font-bold mb-4">Featured Packages</h2>
+            <p class="text-lg text-gray-500 max-w-2xl mx-auto">Carefully curated lighting solutions for your special moments</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {% if featured_products %}
+            {% for product in featured_products %}
+            <a href="{% url 'product_detail' product.pk %}" class="group bg-white rounded-xl border overflow-hidden hover:shadow-xl transition-all duration-300 block">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white/90 text-gray-800">{{ product.category }}</span>
+                    </div>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div>
+                        <h3 class="font-serif text-2xl font-semibold mb-2">{{ product.name }}</h3>
+                        <p class="text-gray-500 line-clamp-2">{{ product.description }}</p>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between"><span class="text-gray-500">Lights:</span><span class="font-medium">{{ product.spec_lights }}</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Coverage:</span><span class="font-medium">{{ product.spec_coverage }}</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Style:</span><span class="font-medium">{{ product.spec_style }}</span></div>
+                    </div>
+                    <div class="border-t pt-4 space-y-1 text-sm">
+                        <div class="flex justify-between"><span class="text-gray-500">3 Days:</span><span class="font-semibold">Rs. {{ product.price_3days|floatformat:0 }}</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">5 Days:</span><span class="font-semibold">Rs. {{ product.price_5days|floatformat:0 }}</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">7 Days:</span><span class="font-semibold">Rs. {{ product.price_7days|floatformat:0 }}</span></div>
+                        <div class="flex justify-between text-amber-500"><span class="font-medium">10 Days:</span><span class="font-bold">Rs. {{ product.price_10days|floatformat:0 }}</span></div>
+                    </div>
+                    <span class="block w-full text-center py-3 rounded-lg bg-amber-500 text-white font-medium uppercase tracking-wider group-hover:bg-amber-600 transition-colors">
+                        View Details
+                    </span>
+                </div>
+            </a>
+            {% endfor %}
+            {% else %}
+            <!-- Fallback static products -->
+            <div class="group bg-white rounded-xl border overflow-hidden hover:shadow-xl transition-all duration-300">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img src="{% static 'images/Premium_LED_string_lights_closeup_f9cc5a19.png' %}" alt="Elegant Wedding Package" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white/90 text-gray-800">Wedding</span>
+                    </div>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div>
+                        <h3 class="font-serif text-2xl font-semibold mb-2">Elegant Wedding Package</h3>
+                        <p class="text-gray-500 line-clamp-2">Premium warm white LED lights perfect for creating a romantic ambiance at your special celebration</p>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between"><span class="text-gray-500">Lights:</span><span class="font-medium">2000+ LEDs</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Coverage:</span><span class="font-medium">Up to 2000 sq ft</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Style:</span><span class="font-medium">Warm White Elegance</span></div>
+                    </div>
+                    <div class="border-t pt-4 space-y-1 text-sm">
+                        <div class="flex justify-between"><span class="text-gray-500">3 Days:</span><span class="font-semibold">Rs. 25,000</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">5 Days:</span><span class="font-semibold">Rs. 38,000</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">7 Days:</span><span class="font-semibold">Rs. 48,000</span></div>
+                        <div class="flex justify-between text-amber-500"><span class="font-medium">10 Days:</span><span class="font-bold">Rs. 62,000</span></div>
+                    </div>
+                    <a href="https://wa.me/923025329536?text=Hi%2C%20I%20want%20to%20book%20Elegant%20Wedding%20Package" target="_blank" class="block w-full text-center py-3 rounded-lg bg-amber-500 text-white font-medium uppercase tracking-wider hover:bg-amber-600 transition-colors">Book Now</a>
+                </div>
+            </div>
+
+            <div class="group bg-white rounded-xl border overflow-hidden hover:shadow-xl transition-all duration-300">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img src="{% static 'images/Garden_party_with_fairy_lights_c450bf55.png' %}" alt="Garden Party Deluxe" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white/90 text-gray-800">Birthday</span>
+                    </div>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div>
+                        <h3 class="font-serif text-2xl font-semibold mb-2">Garden Party Deluxe</h3>
+                        <p class="text-gray-500 line-clamp-2">Charming fairy lights and ambient lighting to transform your garden into a magical wonderland</p>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between"><span class="text-gray-500">Lights:</span><span class="font-medium">1500+ LEDs</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Coverage:</span><span class="font-medium">Up to 1500 sq ft</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Style:</span><span class="font-medium">Fairy Light Magic</span></div>
+                    </div>
+                    <div class="border-t pt-4 space-y-1 text-sm">
+                        <div class="flex justify-between"><span class="text-gray-500">3 Days:</span><span class="font-semibold">Rs. 18,000</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">5 Days:</span><span class="font-semibold">Rs. 28,000</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">7 Days:</span><span class="font-semibold">Rs. 36,000</span></div>
+                        <div class="flex justify-between text-amber-500"><span class="font-medium">10 Days:</span><span class="font-bold">Rs. 45,000</span></div>
+                    </div>
+                    <a href="https://wa.me/923025329536?text=Hi%2C%20I%20want%20to%20book%20Garden%20Party%20Deluxe" target="_blank" class="block w-full text-center py-3 rounded-lg bg-amber-500 text-white font-medium uppercase tracking-wider hover:bg-amber-600 transition-colors">Book Now</a>
+                </div>
+            </div>
+
+            <div class="group bg-white rounded-xl border overflow-hidden hover:shadow-xl transition-all duration-300">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img src="{% static 'images/Christmas_luxury_lighting_display_629dbbd6.png' %}" alt="Christmas Grand Display" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white/90 text-gray-800">Christmas</span>
+                    </div>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div>
+                        <h3 class="font-serif text-2xl font-semibold mb-2">Christmas Grand Display</h3>
+                        <p class="text-gray-500 line-clamp-2">Spectacular holiday lighting package featuring icicle lights and architectural illumination</p>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between"><span class="text-gray-500">Lights:</span><span class="font-medium">3000+ LEDs</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Coverage:</span><span class="font-medium">Up to 3000 sq ft</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Style:</span><span class="font-medium">Holiday Splendor</span></div>
+                    </div>
+                    <div class="border-t pt-4 space-y-1 text-sm">
+                        <div class="flex justify-between"><span class="text-gray-500">3 Days:</span><span class="font-semibold">Rs. 32,000</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">5 Days:</span><span class="font-semibold">Rs. 48,000</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">7 Days:</span><span class="font-semibold">Rs. 60,000</span></div>
+                        <div class="flex justify-between text-amber-500"><span class="font-medium">10 Days:</span><span class="font-bold">Rs. 75,000</span></div>
+                    </div>
+                    <a href="https://wa.me/923025329536?text=Hi%2C%20I%20want%20to%20book%20Christmas%20Grand%20Display" target="_blank" class="block w-full text-center py-3 rounded-lg bg-amber-500 text-white font-medium uppercase tracking-wider hover:bg-amber-600 transition-colors">Book Now</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="text-center">
+            <a href="#contact" class="inline-flex items-center gap-2 px-8 py-4 text-base font-medium uppercase tracking-wider rounded-lg border border-gray-300 text-gray-800 hover:bg-gray-50 transition-colors">
+                View All Packages
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== HOW IT WORKS ==================== -->
+<section id="how-it-works" class="py-20 md:py-32">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="font-serif text-4xl md:text-5xl font-bold mb-4">How It Works</h2>
+            <p class="text-lg text-gray-500 max-w-2xl mx-auto">Simple, seamless, and stress-free lighting rental process</p>
+        </div>
+
+        <div class="relative">
+            <div class="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-gray-200 -translate-y-1/2"></div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-8 relative">
+                <!-- Step 1 -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="relative mb-6">
+                        <div class="w-20 h-20 rounded-full bg-amber-500 text-white flex items-center justify-center relative z-10">
+                            <i data-lucide="search" class="w-8 h-8"></i>
+                        </div>
+                        <div class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm">1</div>
+                    </div>
+                    <h3 class="font-serif text-xl font-semibold mb-2">Browse</h3>
+                    <p class="text-gray-500 text-sm">Explore our curated collection of premium lighting packages</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="relative mb-6">
+                        <div class="w-20 h-20 rounded-full bg-amber-500 text-white flex items-center justify-center relative z-10">
+                            <i data-lucide="check-circle" class="w-8 h-8"></i>
+                        </div>
+                        <div class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm">2</div>
+                    </div>
+                    <h3 class="font-serif text-xl font-semibold mb-2">Select</h3>
+                    <p class="text-gray-500 text-sm">Choose the perfect package for your special event</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="relative mb-6">
+                        <div class="w-20 h-20 rounded-full bg-amber-500 text-white flex items-center justify-center relative z-10">
+                            <i data-lucide="calendar" class="w-8 h-8"></i>
+                        </div>
+                        <div class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm">3</div>
+                    </div>
+                    <h3 class="font-serif text-xl font-semibold mb-2">Book</h3>
+                    <p class="text-gray-500 text-sm">Reserve your preferred dates with flexible rental options</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="relative mb-6">
+                        <div class="w-20 h-20 rounded-full bg-amber-500 text-white flex items-center justify-center relative z-10">
+                            <i data-lucide="wrench" class="w-8 h-8"></i>
+                        </div>
+                        <div class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm">4</div>
+                    </div>
+                    <h3 class="font-serif text-xl font-semibold mb-2">We Setup</h3>
+                    <p class="text-gray-500 text-sm">Our expert team handles professional installation</p>
+                </div>
+                <!-- Step 5 -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="relative mb-6">
+                        <div class="w-20 h-20 rounded-full bg-amber-500 text-white flex items-center justify-center relative z-10">
+                            <i data-lucide="sparkles" class="w-8 h-8"></i>
+                        </div>
+                        <div class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm">5</div>
+                    </div>
+                    <h3 class="font-serif text-xl font-semibold mb-2">Enjoy</h3>
+                    <p class="text-gray-500 text-sm">Celebrate your moment with stunning illumination</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PORTFOLIO GALLERY ==================== -->
+<section id="portfolio" class="py-20 md:py-32 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="font-serif text-4xl md:text-5xl font-bold mb-4">Portfolio Gallery</h2>
+            <p class="text-lg text-gray-500 max-w-2xl mx-auto">See how we've illuminated special moments for our clients</p>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="flex flex-wrap gap-3 mb-8 justify-center">
+            <button class="gallery-filter active px-6 py-2 rounded-full text-sm font-medium bg-amber-500 text-white transition-colors" data-category="All">All</button>
+            <button class="gallery-filter px-6 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-800 hover:bg-amber-500 hover:text-white transition-colors" data-category="Wedding">Wedding</button>
+            <button class="gallery-filter px-6 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-800 hover:bg-amber-500 hover:text-white transition-colors" data-category="Birthday">Birthday</button>
+            <button class="gallery-filter px-6 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-800 hover:bg-amber-500 hover:text-white transition-colors" data-category="Christmas">Christmas</button>
+            <button class="gallery-filter px-6 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-800 hover:bg-amber-500 hover:text-white transition-colors" data-category="Eid">Eid</button>
+            <button class="gallery-filter px-6 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-800 hover:bg-amber-500 hover:text-white transition-colors" data-category="Corporate">Corporate</button>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="gallery-grid">
+            {% if gallery_images %}
+            {% for img in gallery_images %}
+            <div class="gallery-item group bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all" data-category="{{ img.category }}">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img src="{{ img.image.url }}" alt="{{ img.title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 class="font-serif text-xl font-semibold mb-1">{{ img.title }}</h3>
+                        <p class="text-sm text-white/80">{{ img.category }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <!-- Fallback static gallery -->
+            <div class="gallery-item group bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all" data-category="Wedding">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img src="{% static 'images/Luxury_mansion_with_elegant_lighting_12b28620.png' %}" alt="Elegant Wedding Setup" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 gallery-img">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 class="font-serif text-xl font-semibold mb-1">Elegant Wedding Setup</h3>
+                        <p class="text-sm text-white/80">Wedding</p>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item group bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all" data-category="Wedding">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img src="{% static 'images/Wedding_venue_with_romantic_lighting_8e02b9ec.png' %}" alt="Romantic Venue Lighting" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 gallery-img">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 class="font-serif text-xl font-semibold mb-1">Romantic Venue Lighting</h3>
+                        <p class="text-sm text-white/80">Wedding</p>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item group bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all" data-category="Birthday">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img src="{% static 'images/Garden_party_with_fairy_lights_c450bf55.png' %}" alt="Garden Party Ambiance" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 gallery-img">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 class="font-serif text-xl font-semibold mb-1">Garden Party Ambiance</h3>
+                        <p class="text-sm text-white/80">Birthday</p>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item group bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all" data-category="Christmas">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img src="{% static 'images/Christmas_luxury_lighting_display_629dbbd6.png' %}" alt="Holiday Luxury Display" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 gallery-img">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 class="font-serif text-xl font-semibold mb-1">Holiday Luxury Display</h3>
+                        <p class="text-sm text-white/80">Christmas</p>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item group bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all" data-category="Eid">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img src="{% static 'images/Eid_celebration_luxury_lighting_d4858fdb.png' %}" alt="Festive Celebration" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 gallery-img">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 class="font-serif text-xl font-semibold mb-1">Festive Celebration</h3>
+                        <p class="text-sm text-white/80">Eid</p>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item group bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all" data-category="Corporate">
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img src="{% static 'images/Modern_home_with_architectural_lighting_a5a24633.png' %}" alt="Corporate Event Lighting" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 gallery-img">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 class="font-serif text-xl font-semibold mb-1">Corporate Event Lighting</h3>
+                        <p class="text-sm text-white/80">Corporate</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="fixed inset-0 bg-black/95 z-50 hidden items-center justify-center p-6">
+        <button id="lightbox-close" class="absolute top-6 right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors" aria-label="Close">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        <img id="lightbox-img" src="" alt="Gallery preview" class="max-w-full max-h-full object-contain">
+    </div>
+</section>
+
+<!-- ==================== TESTIMONIALS ==================== -->
+<section id="testimonials" class="py-20 md:py-32">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="font-serif text-4xl md:text-5xl font-bold mb-4">What Our Clients Say</h2>
+            <p class="text-lg text-gray-500 max-w-2xl mx-auto">Real experiences from real celebrations</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% if testimonials %}
+            {% for t in testimonials %}
+            <div class="bg-white rounded-xl border p-6 space-y-4 h-full flex flex-col">
+                <div class="flex gap-1">
+                    {% for i in "12345" %}
+                    {% if forloop.counter <= t.rating %}
+                    <svg class="w-5 h-5 fill-amber-500 text-amber-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    {% else %}
+                    <svg class="w-5 h-5 fill-gray-200 text-gray-200" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <p class="text-gray-500 italic flex-1 leading-relaxed">"{{ t.testimonial }}"</p>
+                <div class="flex items-center gap-3 pt-4 border-t">
+                    {% if t.image %}
+                    <img src="{{ t.image.url }}" alt="{{ t.name }}" class="w-10 h-10 rounded-full object-cover">
+                    {% else %}
+                    <div class="w-10 h-10 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-sm">{{ t.name|make_list|first }}</div>
+                    {% endif %}
+                    <div>
+                        <div class="font-semibold">{{ t.name }}</div>
+                        <div class="text-sm text-gray-500">{{ t.event_type }}</div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <!-- Fallback static testimonials -->
+            <div class="bg-white rounded-xl border p-6 space-y-4 h-full flex flex-col">
+                <div class="flex gap-1">
+                    <svg class="w-5 h-5 fill-amber-500 text-amber-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg class="w-5 h-5 fill-amber-500 text-amber-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg class="w-5 h-5 fill-amber-500 text-amber-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg class="w-5 h-5 fill-amber-500 text-amber-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg class="w-5 h-5 fill-amber-500 text-amber-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <p class="text-gray-500 italic flex-1 leading-relaxed">"Absolutely stunning! The lighting transformed our venue into a magical space. The team was professional, punctual, and the quality exceeded our expectations. Highly recommended!"</p>
+                <div class="flex items-center gap-3 pt-4 border-t">
+                    <img src="{% static 'images/Happy_customer_couple_portrait_78cb04c2.png' %}" alt="Ahmed & Sara Khan" class="w-10 h-10 rounded-full object-cover">
+                    <div>
+                        <div class="font-semibold">Ahmed &amp; Sara Khan</div>
+                        <div class="text-sm text-gray-500">Wedding Celebration</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl border p-6 space-y-4 h-full flex flex-col">
+                <div class="flex gap-1">
+                    <svg class="w-5 h-5 fill-amber-500 text-amber-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg class="w-5 h-5 fill-amber-500 text-amber-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg class="w-5 h-5 fill-amber-500 text-amber-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg class="w-5 h-5 fill-amber-500 text-amber-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg class="w-5 h-5 fill-amber-500 text-amber-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <p class="text-gray-500 italic flex-1 leading-relaxed">"The garden party package was perfect for my daughter's birthday. The fairy lights created such a beautiful atmosphere. Installation was seamless and removal was handled professionally."</p>
+                <div class="flex items-center gap-3 pt-4 border-t">
+                    <img src="{% static 'images/Professional_woman_testimonial_portrait_62e76b6c.png' %}" alt="Ayesha Malik" class="w-10 h-10 rounded-full object-cover">
+                    <div>
+                        <div class="font-semibold">Ayesha Malik</div>
+                        <div class="text-sm text-gray-500">Birthday Party</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl border p-6 space-y-4 h-full flex flex-col">
+                <div class="flex gap-1">
+                    <svg class="w-5 h-5 fill-amber-500 text-amber-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg class="w-5 h-5 fill-amber-500 text-amber-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg class="w-5 h-5 fill-amber-500 text-amber-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg class="w-5 h-5 fill-amber-500 text-amber-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg class="w-5 h-5 fill-amber-500 text-amber-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <p class="text-gray-500 italic flex-1 leading-relaxed">"We used Lights for our annual corporate gala. The sophisticated lighting added tremendous value to our event. Guests were impressed and the setup was flawless."</p>
+                <div class="flex items-center gap-3 pt-4 border-t">
+                    <img src="{% static 'images/Business_professional_testimonial_portrait_ab18402e.png' %}" alt="Rashid Abdullah" class="w-10 h-10 rounded-full object-cover">
+                    <div>
+                        <div class="font-semibold">Rashid Abdullah</div>
+                        <div class="text-sm text-gray-500">Corporate Event</div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- ==================== TRUST BADGES ==================== -->
+<section class="py-16 bg-gray-50 border-y">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="flex flex-col items-center text-center gap-3">
+                <div class="text-amber-500"><i data-lucide="shield" class="w-8 h-8"></i></div>
+                <h3 class="font-semibold">Money-Back Guarantee</h3>
+                <p class="text-sm text-gray-500">100% satisfaction or refund</p>
+            </div>
+            <div class="flex flex-col items-center text-center gap-3">
+                <div class="text-amber-500"><i data-lucide="award" class="w-8 h-8"></i></div>
+                <h3 class="font-semibold">Premium Quality</h3>
+                <p class="text-sm text-gray-500">Certified professional equipment</p>
+            </div>
+            <div class="flex flex-col items-center text-center gap-3">
+                <div class="text-amber-500"><i data-lucide="clock" class="w-8 h-8"></i></div>
+                <h3 class="font-semibold">24/7 Support</h3>
+                <p class="text-sm text-gray-500">Always here to help you</p>
+            </div>
+            <div class="flex flex-col items-center text-center gap-3">
+                <div class="text-amber-500"><i data-lucide="thumbs-up" class="w-8 h-8"></i></div>
+                <h3 class="font-semibold">Trusted by 500+</h3>
+                <p class="text-sm text-gray-500">Happy clients nationwide</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== CONTACT FORM ==================== -->
+<section id="contact" class="py-20 md:py-32">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Left side content -->
+            <div>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold mb-6">Ready to Illuminate Your Event?</h2>
+                <p class="text-lg text-gray-500 mb-8 leading-relaxed">
+                    Share your event details with us, and our team will create a customized lighting solution that exceeds your expectations. We respond to all inquiries within 24 hours.
+                </p>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+                            <span class="text-amber-500 font-bold text-lg">&#10003;</span>
+                        </div>
+                        <p class="text-gray-500">Free consultation and venue assessment</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+                            <span class="text-amber-500 font-bold text-lg">&#10003;</span>
+                        </div>
+                        <p class="text-gray-500">Customized package recommendations</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+                            <span class="text-amber-500 font-bold text-lg">&#10003;</span>
+                        </div>
+                        <p class="text-gray-500">Professional installation &amp; removal included</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right side form -->
+            <div>
+                <!-- Success Message (hidden by default) -->
+                <div id="form-success" class="hidden bg-white rounded-xl border p-12 text-center">
+                    <div class="flex flex-col items-center gap-4">
+                        <div class="w-20 h-20 rounded-full bg-amber-500/10 flex items-center justify-center">
+                            <i data-lucide="check-circle" class="w-10 h-10 text-amber-500"></i>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold">Thank You!</h3>
+                        <p class="text-gray-500 max-w-md">Your inquiry has been received. Our team will contact you within 24 hours to discuss your lighting needs.</p>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div id="form-container" class="bg-white rounded-xl border p-8">
+                    <form id="contact-form" class="space-y-6">
+                        {% csrf_token %}
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label for="id_full_name" class="text-sm font-medium text-gray-700">Full Name *</label>
+                                {{ form.full_name }}
+                            </div>
+                            <div class="space-y-2">
+                                <label for="id_email" class="text-sm font-medium text-gray-700">Email Address *</label>
+                                {{ form.email }}
+                            </div>
+                            <div class="space-y-2">
+                                <label for="id_phone" class="text-sm font-medium text-gray-700">Phone Number *</label>
+                                {{ form.phone }}
+                            </div>
+                            <div class="space-y-2">
+                                <label for="id_event_date" class="text-sm font-medium text-gray-700">Event Date *</label>
+                                {{ form.event_date }}
+                            </div>
+                            <div class="space-y-2">
+                                <label for="id_event_type" class="text-sm font-medium text-gray-700">Event Type *</label>
+                                {{ form.event_type }}
+                            </div>
+                            <div class="space-y-2">
+                                <label for="id_rental_duration" class="text-sm font-medium text-gray-700">Rental Duration *</label>
+                                {{ form.rental_duration }}
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label for="id_message" class="text-sm font-medium text-gray-700">Message / Special Requirements</label>
+                            {{ form.message }}
+                        </div>
+                        <button type="submit" id="submit-btn" class="w-full py-4 rounded-lg bg-amber-500 text-white font-medium uppercase tracking-wider hover:bg-amber-600 transition-colors text-base">
+                            Submit Inquiry
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== CTA SECTION ==================== -->
+<section class="py-16 bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-amber-500/10">
+    <div class="max-w-5xl mx-auto px-6 lg:px-8 text-center">
+        <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4">Transform Your Celebration Today</h2>
+        <p class="text-lg text-gray-500 mb-8">Join 500+ satisfied clients who trusted us with their special moments</p>
+        <div class="flex gap-4 flex-wrap justify-center">
+            <a href="#products" class="inline-flex items-center px-8 py-4 text-base font-medium uppercase tracking-wider rounded-lg bg-amber-500 text-white hover:bg-amber-600 transition-colors">
+                Explore All Packages
+            </a>
+            <a href="#contact" class="inline-flex items-center px-8 py-4 text-base font-medium uppercase tracking-wider rounded-lg border border-gray-300 text-gray-800 hover:bg-gray-50 transition-colors">
+                Contact Us Now
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

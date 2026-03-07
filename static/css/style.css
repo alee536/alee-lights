@@ -1,0 +1,258 @@
+/* ==================== CUSTOM STYLES ==================== */
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Font defaults */
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.font-serif {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Header scrolled state */
+.header-scrolled {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.header-scrolled .header-icon {
+    color: hsl(43, 74%, 52%) !important;
+}
+
+.header-scrolled .header-text {
+    color: #1f2937 !important;
+}
+
+.header-scrolled .header-link {
+    color: #1f2937 !important;
+}
+
+.header-scrolled .header-btn-outline {
+    border-color: #d1d5db !important;
+    color: #1f2937 !important;
+}
+
+.header-scrolled .header-btn-outline:hover {
+    background-color: #f3f4f6 !important;
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Gallery item hide/show */
+.gallery-item.hidden-item {
+    display: none;
+}
+
+/* Lightbox visible */
+#lightbox.active {
+    display: flex;
+}
+
+/* Hero slide transitions */
+.hero-slide {
+    transition: opacity 1s ease-in-out;
+}
+
+/* Slide indicators */
+.slide-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.slide-dot.active {
+    background: hsl(43, 74%, 52%);
+    width: 32px;
+}
+
+/* Aspect ratio helper */
+.aspect-\[4\/3\] {
+    aspect-ratio: 4/3;
+}
+
+/* Scroll animation for floating button */
+#scroll-to-top.visible {
+    display: flex !important;
+}
+
+/* ==================== DARK MODE ==================== */
+
+/* Dark mode icon toggle */
+html.dark .dark-icon-moon { display: none !important; }
+html.dark .dark-icon-sun { display: block !important; }
+html:not(.dark) .dark-icon-moon { display: block; }
+html:not(.dark) .dark-icon-sun { display: none; }
+html.dark .dark-label-text::after { content: ''; }
+
+/* Body */
+html.dark body {
+    background-color: #0f172a;
+    color: #e2e8f0;
+}
+
+/* Header scrolled - dark */
+html.dark .header-scrolled {
+    background-color: rgba(15, 23, 42, 0.95) !important;
+    border-bottom-color: #334155 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+}
+html.dark .header-scrolled .header-text {
+    color: #f1f5f9 !important;
+}
+html.dark .header-scrolled .header-link {
+    color: #cbd5e1 !important;
+}
+html.dark .header-scrolled .header-link:hover {
+    color: hsl(43, 74%, 52%) !important;
+}
+html.dark .header-scrolled .header-btn-outline {
+    border-color: #475569 !important;
+    color: #e2e8f0 !important;
+}
+html.dark .header-scrolled .header-btn-outline:hover {
+    background-color: #1e293b !important;
+}
+
+/* Mobile menu */
+html.dark #mobile-menu {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+}
+html.dark #mobile-menu a:not(.bg-amber-500),
+html.dark #mobile-menu button:not(.bg-amber-500) {
+    color: #e2e8f0 !important;
+}
+
+/* ---- Background overrides ---- */
+html.dark .bg-white {
+    background-color: #1e293b !important;
+}
+html.dark .bg-gray-50 {
+    background-color: #0f172a !important;
+}
+
+/* ---- Text overrides ---- */
+html.dark .text-gray-800,
+html.dark .text-gray-700 {
+    color: #f1f5f9 !important;
+}
+html.dark .text-gray-600,
+html.dark .text-gray-500 {
+    color: #94a3b8 !important;
+}
+
+/* ---- Border overrides ---- */
+html.dark .border,
+html.dark .border-t,
+html.dark .border-b,
+html.dark .border-y {
+    border-color: #334155 !important;
+}
+html.dark .border-gray-300 {
+    border-color: #475569 !important;
+}
+
+/* ---- Cards ---- */
+html.dark .bg-white.rounded-xl,
+html.dark .bg-white.rounded-lg {
+    background-color: #1e293b !important;
+}
+
+/* Spec cards inside gray bg */
+html.dark .bg-gray-50 .bg-white {
+    background-color: #0f172a !important;
+}
+
+/* ---- Form inputs ---- */
+html.dark input,
+html.dark select,
+html.dark textarea {
+    background-color: #0f172a !important;
+    border-color: #475569 !important;
+    color: #e2e8f0 !important;
+}
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+    color: #64748b !important;
+}
+
+/* ---- Labels ---- */
+html.dark label {
+    color: #cbd5e1 !important;
+}
+
+/* ---- Gallery filters ---- */
+html.dark .gallery-filter:not(.active) {
+    background-color: #334155 !important;
+    color: #e2e8f0 !important;
+}
+
+/* ---- Amber accent backgrounds ---- */
+html.dark .bg-amber-500\/10,
+html.dark .bg-amber-50 {
+    background-color: rgba(217, 169, 44, 0.12) !important;
+}
+
+/* ---- CTA gradient section ---- */
+html.dark .bg-gradient-to-r.from-amber-500\/10 {
+    background: #1e293b !important;
+}
+
+/* ---- Scroll to top ---- */
+html.dark #scroll-to-top {
+    background-color: #334155 !important;
+    color: #e2e8f0 !important;
+}
+
+/* ---- Category badges on images ---- */
+html.dark .bg-white\/90 {
+    background-color: rgba(30, 41, 59, 0.9) !important;
+    color: #e2e8f0 !important;
+}
+
+/* ---- Footer ---- */
+html.dark footer {
+    background-color: #0c1322 !important;
+}
+html.dark footer .bg-gray-200 {
+    background-color: #334155 !important;
+}
+
+/* ---- Social icons ---- */
+html.dark .rounded-full.bg-gray-200 {
+    background-color: #334155 !important;
+    color: #e2e8f0 !important;
+}
+
+/* ---- How it works step number badges ---- */
+html.dark .bg-amber-100 {
+    background-color: rgba(217, 169, 44, 0.2) !important;
+}
+
+/* ---- Star ratings (keep amber) ---- */
+html.dark .fill-gray-200 {
+    fill: #475569 !important;
+}
+
+/* Transition for smooth theme switch */
+html.dark *,
+html:not(.dark) * {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
