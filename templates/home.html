@@ -321,7 +321,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="gallery-grid">
             {% if gallery_images %}
             {% for img in gallery_images %}
-            <div class="gallery-item group bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all" data-category="{{ img.category }}">
+            <div class="gallery-item group bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all" data-category="{{ img.category }}" style="{% if forloop.counter > 6 %}display:none;{% endif %}">
                 <div class="relative aspect-[4/3] overflow-hidden">
                     <img src="{{ img.image.url }}" alt="{{ img.title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -332,69 +332,15 @@
                 </div>
             </div>
             {% endfor %}
-            {% else %}
-            <!-- Fallback static gallery -->
-            <div class="gallery-item group bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all" data-category="Wedding">
-                <div class="relative aspect-[4/3] overflow-hidden">
-                    <img src="{% static 'images/Luxury_mansion_with_elegant_lighting_12b28620.png' %}" alt="Elegant Wedding Setup" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 gallery-img">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                        <h3 class="font-serif text-xl font-semibold mb-1">Elegant Wedding Setup</h3>
-                        <p class="text-sm text-white/80">Wedding</p>
-                    </div>
-                </div>
-            </div>
-            <div class="gallery-item group bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all" data-category="Wedding">
-                <div class="relative aspect-[4/3] overflow-hidden">
-                    <img src="{% static 'images/Wedding_venue_with_romantic_lighting_8e02b9ec.png' %}" alt="Romantic Venue Lighting" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 gallery-img">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                        <h3 class="font-serif text-xl font-semibold mb-1">Romantic Venue Lighting</h3>
-                        <p class="text-sm text-white/80">Wedding</p>
-                    </div>
-                </div>
-            </div>
-            <div class="gallery-item group bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all" data-category="Birthday">
-                <div class="relative aspect-[4/3] overflow-hidden">
-                    <img src="{% static 'images/Garden_party_with_fairy_lights_c450bf55.png' %}" alt="Garden Party Ambiance" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 gallery-img">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                        <h3 class="font-serif text-xl font-semibold mb-1">Garden Party Ambiance</h3>
-                        <p class="text-sm text-white/80">Birthday</p>
-                    </div>
-                </div>
-            </div>
-            <div class="gallery-item group bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all" data-category="Christmas">
-                <div class="relative aspect-[4/3] overflow-hidden">
-                    <img src="{% static 'images/Christmas_luxury_lighting_display_629dbbd6.png' %}" alt="Holiday Luxury Display" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 gallery-img">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                        <h3 class="font-serif text-xl font-semibold mb-1">Holiday Luxury Display</h3>
-                        <p class="text-sm text-white/80">Christmas</p>
-                    </div>
-                </div>
-            </div>
-            <div class="gallery-item group bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all" data-category="Eid">
-                <div class="relative aspect-[4/3] overflow-hidden">
-                    <img src="{% static 'images/Eid_celebration_luxury_lighting_d4858fdb.png' %}" alt="Festive Celebration" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 gallery-img">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                        <h3 class="font-serif text-xl font-semibold mb-1">Festive Celebration</h3>
-                        <p class="text-sm text-white/80">Eid</p>
-                    </div>
-                </div>
-            </div>
-            <div class="gallery-item group bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all" data-category="Corporate">
-                <div class="relative aspect-[4/3] overflow-hidden">
-                    <img src="{% static 'images/Modern_home_with_architectural_lighting_a5a24633.png' %}" alt="Corporate Event Lighting" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 gallery-img">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                        <h3 class="font-serif text-xl font-semibold mb-1">Corporate Event Lighting</h3>
-                        <p class="text-sm text-white/80">Corporate</p>
-                    </div>
-                </div>
-            </div>
             {% endif %}
+        </div>
+
+        <!-- Show More Button -->
+        <div class="text-center mt-10" id="gallery-show-more-wrap">
+            <button id="gallery-show-more" class="px-8 py-3 rounded-full bg-amber-500 text-white font-semibold hover:bg-amber-600 transition-colors shadow-lg hover:shadow-xl">
+                <i data-lucide="chevron-down" class="w-5 h-5 inline-block mr-1 align-middle"></i>
+                Show More
+            </button>
         </div>
     </div>
 
