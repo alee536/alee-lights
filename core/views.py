@@ -11,7 +11,7 @@ def home(request):
     hero_slides = HeroSlide.objects.filter(is_active=True)
     featured_products = Product.objects.filter(is_featured=True)
     testimonials = Testimonial.objects.all()
-    gallery_images = GalleryImage.objects.all()
+    gallery_images = GalleryImage.objects.all().order_by('order')
     categories = gallery_images.values_list('category', flat=True).distinct()
     form = ContactInquiryForm()
 

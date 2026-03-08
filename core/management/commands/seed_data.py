@@ -126,42 +126,21 @@ class Command(BaseCommand):
         # ==================== GALLERY IMAGES ====================
         if GalleryImage.objects.count() == 0:
             gallery = [
-                {
-                    'title': 'Elegant Wedding Setup',
-                    'category': 'Wedding',
-                    'image': 'gallery/Luxury_mansion_with_elegant_lighting_12b28620.png',
-                    'order': 1,
-                },
-                {
-                    'title': 'Romantic Venue Lighting',
-                    'category': 'Wedding',
-                    'image': 'gallery/Wedding_venue_with_romantic_lighting_8e02b9ec.png',
-                    'order': 2,
-                },
-                {
-                    'title': 'Garden Party Ambiance',
-                    'category': 'Birthday',
-                    'image': 'gallery/Garden_party_with_fairy_lights_c450bf55.png',
-                    'order': 3,
-                },
-                {
-                    'title': 'Holiday Luxury Display',
-                    'category': 'Christmas',
-                    'image': 'gallery/Christmas_luxury_lighting_display_629dbbd6.png',
-                    'order': 4,
-                },
-                {
-                    'title': 'Festive Celebration',
-                    'category': 'Eid',
-                    'image': 'gallery/Eid_celebration_luxury_lighting_d4858fdb.png',
-                    'order': 5,
-                },
-                {
-                    'title': 'Corporate Event Lighting',
-                    'category': 'Corporate',
-                    'image': 'gallery/Modern_home_with_architectural_lighting_a5a24633.png',
-                    'order': 6,
-                },
+                {'title': 'Elegant Wedding Setup', 'category': 'Wedding', 'image': 'gallery/Luxury_mansion_with_elegant_lighting_12b28620.png', 'order': 1},
+                {'title': 'Wedding Setup 1', 'category': 'Wedding', 'image': 'gallery/wedding (1).png', 'order': 2},
+                {'title': 'Wedding Setup 2', 'category': 'Wedding', 'image': 'gallery/wedding (2).png', 'order': 3},
+                {'title': 'Wedding Setup 3', 'category': 'Wedding', 'image': 'gallery/wedding (3).png', 'order': 4},
+                {'title': 'Wedding Setup 4', 'category': 'Wedding', 'image': 'gallery/wedding (4).png', 'order': 5},
+                {'title': 'Wedding Setup 5', 'category': 'Wedding', 'image': 'gallery/wedding (5).png', 'order': 6},
+                {'title': 'Wedding Setup 6', 'category': 'Wedding', 'image': 'gallery/wedding (6).png', 'order': 7},
+                {'title': 'Wedding Setup 7', 'category': 'Wedding', 'image': 'gallery/wedding (7).png', 'order': 8},
+                {'title': 'Wedding Setup 8', 'category': 'Wedding', 'image': 'gallery/wedding (8).png', 'order': 9},
+                {'title': 'Garden Party Ambiance', 'category': 'Birthday', 'image': 'gallery/Garden_party_with_fairy_lights_c450bf55.png', 'order': 10},
+                {'title': 'Holiday Luxury Display', 'category': 'Christmas', 'image': 'gallery/Christmas_luxury_lighting_display_629dbbd6.png', 'order': 11},
+                {'title': 'Festive Celebration', 'category': 'Eid', 'image': 'gallery/Eid_celebration_luxury_lighting_d4858fdb.png', 'order': 12},
+                {'title': 'Corporate Event Lighting', 'category': 'Corporate', 'image': 'gallery/Modern_home_with_architectural_lighting_a5a24633.png', 'order': 13},
+                {'title': 'Corporate Outdoor Setup 1', 'category': 'Corporate', 'image': 'gallery/open (1).png', 'order': 14},
+                {'title': 'Corporate Outdoor Setup 2', 'category': 'Corporate', 'image': 'gallery/open (2).png', 'order': 15},
             ]
             for g in gallery:
                 GalleryImage.objects.create(**g)

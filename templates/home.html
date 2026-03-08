@@ -321,7 +321,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="gallery-grid">
             {% if gallery_images %}
             {% for img in gallery_images %}
-            <div class="gallery-item group bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all" data-category="{{ img.category }}" style="{% if forloop.counter > 6 %}display:none;{% endif %}">
+            <div class="gallery-item group bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all" data-category="{{ img.category }}" {% if forloop.counter > 6 %}style="display:none"{% endif %}>
                 <div class="relative aspect-[4/3] overflow-hidden">
                     <img src="{{ img.image.url }}" alt="{{ img.title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

@@ -143,38 +143,48 @@ document.addEventListener('DOMContentLoaded', function () {
     // ==================== GALLERY FILTER + SHOW MORE ====================
     const GALLERY_LIMIT = 6;
     const filterBtns = document.querySelectorAll('.gallery-filter');
-    const galleryItems = document.querySelectorAll('.gallery-item');
+    const galleryGrid = document.getElementById('gallery-grid');
     const showMoreBtn = document.getElementById('gallery-show-more');
     const showMoreWrap = document.getElementById('gallery-show-more-wrap');
     let currentCategory = 'All';
     let galleryExpanded = false;
 
     function applyGalleryView() {
-        let visibleCount = 0;
-        let totalForCategory = 0;
-        galleryItems.forEach(function (item) {
-            const cat = item.getAttribute('data-category');
-            const matchesCategory = (currentCategory === 'All' || cat === currentCategory);
+        var items = galleryGrid ? galleryGrid.querySelectorAll('.gallery-item') : [];
+        var visibleCount = 0;
+        var totalForCategory = 0;
+
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            var cat = item.getAttribute('data-category') || '';
+            var matchesCategory = (currentCategory === 'All' || cat === currentCategory);
+
             if (!matchesCategory) {
                 item.style.display = 'none';
-                return;
+                continue;
             }
+
             totalForCategory++;
+
             if (galleryExpanded || visibleCount < GALLERY_LIMIT) {
-                item.style.display = '';
+                item.style.display = 'block';
                 visibleCount++;
             } else {
                 item.style.display = 'none';
             }
-        });
-        // Show/hide the button
-        if (showMoreWrap) {
-            if (galleryExpanded) {
-                showMoreBtn.innerHTML = '<i data-lucide="chevron-up" class="w-5 h-5 inline-block mr-1 align-middle"></i> Show Less';
-                showMoreWrap.style.display = totalForCategory > GALLERY_LIMIT ? '' : 'none';
+        }
+
+        // Show/hide the Show More button
+        if (showMoreWrap && showMoreBtn) {
+            if (totalForCategory <= GALLERY_LIMIT) {
+                showMoreWrap.style.display = 'none';
             } else {
-                showMoreBtn.innerHTML = '<i data-lucide="chevron-down" class="w-5 h-5 inline-block mr-1 align-middle"></i> Show More';
-                showMoreWrap.style.display = totalForCategory > GALLERY_LIMIT ? '' : 'none';
+                showMoreWrap.style.display = '';
+                if (galleryExpanded) {
+                    showMoreBtn.innerHTML = '<i data-lucide="chevron-up" class="w-5 h-5 inline-block mr-1 align-middle"></i> Show Less';
+                } else {
+                    showMoreBtn.innerHTML = '<i data-lucide="chevron-down" class="w-5 h-5 inline-block mr-1 align-middle"></i> Show More';
+                }
             }
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
@@ -188,13 +198,13 @@ document.addEventListener('DOMContentLoaded', function () {
             currentCategory = this.getAttribute('data-category');
             galleryExpanded = false;
 
-            // Update active button
+            // Update active button styling
             filterBtns.forEach(function (b) {
-                b.classList.remove('bg-amber-500', 'text-white');
+                b.classList.remove('bg-amber-500', 'text-white', 'active');
                 b.classList.add('bg-gray-200', 'text-gray-800');
             });
             this.classList.remove('bg-gray-200', 'text-gray-800');
-            this.classList.add('bg-amber-500', 'text-white');
+            this.classList.add('bg-amber-500', 'text-white', 'active');
 
             applyGalleryView();
         });
@@ -212,7 +222,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxClose = document.getElementById('lightbox-close');
 
-    galleryItems.forEach(function (item) {
+    var allGalleryItems = galleryGrid ? galleryGrid.querySelectorAll('.gallery-item') : [];
+    allGalleryItems.forEach(function (item) {
         item.addEventListener('click', function () {
             const img = this.querySelector('img');
             if (img && lightbox && lightboxImg) {

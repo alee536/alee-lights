@@ -1,3 +1,4 @@
+import datetime
 from django import forms
 from .models import ContactInquiry
 
@@ -35,3 +36,14 @@ class ContactInquiryForm(forms.ModelForm):
                 'rows': 5,
             }),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        tomorrow = (datetime.date.today() + datetime.timedelta(days=1)).isoformat()
+        self.fields['event_date'].widget.attrs['min'] = tomorrow
+
+    def clean_event_date(self):
+        date = self.cleaned_data.get('event_date')
+        if date and date <= datetime.date.today():
+            raise forms.ValidationError('Event date must be a future date.')
+        return date
