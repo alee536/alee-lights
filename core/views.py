@@ -168,6 +168,7 @@ def submit_inquiry(request):
                 from_email=f'{inquiry.full_name} via AleeLights <{settings.EMAIL_HOST_USER}>',
                 to=[settings.NOTIFY_EMAIL],
                 reply_to=[inquiry.email],
+                headers={'X-Customer-Name': inquiry.full_name, 'X-Customer-Email': inquiry.email},
             )
             email.content_subtype = 'html'
             email.send(fail_silently=True)

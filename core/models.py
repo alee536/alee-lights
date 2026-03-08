@@ -13,6 +13,8 @@ class ContactInquiry(models.Model):
     ]
 
     RENTAL_DURATION_CHOICES = [
+        ('1day', '1 Day'),
+        ('2days', '2 Days'),
         ('3days', '3 Days'),
         ('5days', '5 Days'),
         ('7days', '7 Days'),
