@@ -43,7 +43,7 @@ class Command(BaseCommand):
                 {
                     'name': 'Elegant Wedding Package',
                     'category': 'Wedding',
-                    'image': 'products/Premium_LED_string_lights_closeup_f9cc5a19.png',
+                    'image': 'products/Premium_LED_string_lights_closeup_f9cc5a19.jfif',
                     'description': 'Premium warm white LED lights perfect for creating a romantic ambiance at your special celebration',
                     'price_3days': 25000,
                     'price_5days': 38000,
@@ -84,6 +84,21 @@ class Command(BaseCommand):
                     'spec_style': 'Holiday Splendor',
                     'is_featured': True,
                     'order': 3,
+                },
+                {
+                    'name': 'Night Outdoor Setup',
+                    'category': 'Corporate',
+                    'image': 'products/open (1).jfif',
+                    'description': 'Apne event ko den aik modern aur dreamy look is Starry Night Decoration ke sath. High-quality string lights aur behtareen seating arrangement jo aapke mehmano ko hairan kar dega.',
+                    'price_3days': 15000,
+                    'price_5days': 25000,
+                    'price_7days': 35000,
+                    'price_10days': 45000,
+                    'spec_lights': 'Premium String Lights',
+                    'spec_coverage': 'Outdoor Setup',
+                    'spec_style': 'Starry Night Dreamy',
+                    'is_featured': True,
+                    'order': 4,
                 },
             ]
             for p in products:
