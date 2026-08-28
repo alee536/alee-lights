@@ -1,4 +1,4 @@
-# ✨ AleeLights
+# AleeLights
 
 Premium outdoor light decoration rental service based in Bahria Town, Lahore. Built with Django and Tailwind CSS.
 
@@ -8,25 +8,41 @@ Premium outdoor light decoration rental service based in Bahria Town, Lahore. Bu
 
 ## Features
 
-- **Product Catalog** — Browse light decoration packages for weddings, birthdays, corporate events, Eid & Christmas
-- **Product Detail Pages** — Multi-image gallery with lightbox zoom
-- **Pricing Tables** — Flexible rental durations (3, 5, 7, 10 days)
-- **Contact Form** — AJAX-powered inquiry form with professional HTML email notifications
-- **WhatsApp Integration** — One-click chat buttons throughout the site
-- **Dark Mode** — Toggle with localStorage persistence
-- **Admin Panel** — Full Django admin for managing products, images, testimonials, gallery & inquiries
-- **Responsive Design** — Mobile-first with Tailwind CSS
+- **Product Catalog** - Browse light decoration packages for weddings, birthdays, corporate events, Eid, and Christmas
+- **Product Detail Pages** - Multi-image gallery with lightbox zoom
+- **Pricing Tables** - Flexible rental durations: 3, 5, 7, and 10 days
+- **Contact Form** - AJAX-powered inquiry form with HTML email notifications
+- **WhatsApp Integration** - One-click chat buttons throughout the site
+- **Dark Mode** - Toggle with localStorage persistence
+- **Admin Panel** - Django admin for products, images, testimonials, gallery, and inquiries
+- **Responsive Design** - Mobile-first layout with Tailwind CSS
 
 ## Tech Stack
 
 | Layer | Technology |
-|-------|-----------|
-| Backend | Django 5.2, Python 3.13 |
-| Frontend | Tailwind CSS (CDN), Lucide Icons |
-| Fonts | Playfair Display, Montserrat (Google Fonts) |
-| Database | SQLite (dev) / MySQL (production) |
-| Email | Gmail SMTP with HTML templates |
+|-------|------------|
+| Backend | Django, Python |
+| Frontend | Django templates, Tailwind CSS CDN, Lucide Icons |
+| Fonts | Playfair Display, Montserrat |
+| Database | SQLite for development |
+| Email | Gmail SMTP |
 | Hosting | PythonAnywhere |
+
+## Folder Structure
+
+```text
+aleelights/
+├── backend/
+│   ├── aleelights/          # Django project settings
+│   ├── core/                # Django app: models, views, forms, admin
+│   ├── manage.py
+│   └── requirements.txt
+├── frontend/
+│   ├── templates/           # Django templates
+│   ├── static/              # CSS, JavaScript, fallback images
+│   └── media/               # Seeded product, hero, gallery, and testimonial media
+└── README.md
+```
 
 ## Quick Start
 
@@ -36,12 +52,13 @@ git clone https://github.com/alee536/alee-lights.git
 cd alee-lights
 
 # Install dependencies
+cd backend
 pip install -r requirements.txt
 
-# Set environment variable
+# Set Gmail app password for inquiry emails
 set EMAIL_HOST_PASSWORD=your-gmail-app-password
 
-# Run migrations & seed data
+# Run migrations and seed data
 python manage.py migrate
 python manage.py seed_data
 
@@ -52,32 +69,13 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-## Project Structure
-
-```
-aleelights/
-├── aleelights/          # Django project settings
-├── core/                # Main app (models, views, forms, admin)
-│   ├── management/      # Custom commands (seed_data)
-│   ├── migrations/
-│   ├── models.py        # Product, ProductImage, Testimonial, Gallery, HeroSlide, ContactInquiry
-│   ├── views.py         # Home, product detail, contact form with email
-│   └── admin.py         # Admin configuration with inlines
-├── templates/           # Django templates
-│   ├── base.html
-│   ├── home.html
-│   ├── product_detail.html
-│   └── partials/        # Header, footer, floating actions
-├── static/
-│   ├── css/style.css    # Custom styles + dark mode
-│   └── js/main.js       # Dark mode toggle, gallery, slider, AJAX
-└── manage.py
-```
+For local development, you can also keep `EMAIL_HOST_PASSWORD=...` in a root `.env` file or in `backend/.env`.
 
 ## Admin Panel
 
-Access at `/admin/` to manage:
-- Products & product images
+Access `/admin/` to manage:
+
+- Products and product images
 - Hero slider slides
 - Testimonials
 - Gallery images
