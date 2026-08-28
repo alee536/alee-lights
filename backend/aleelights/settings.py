@@ -38,7 +38,7 @@ load_local_env()
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-9(($ndi6-!v!h+is^nhbt64=j2u%n43)mvul_q0pznkw_88m@k'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-9(($ndi6-!v!h+is^nhbt64=j2u%n43)mvul_q0pznkw_88m@k')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
