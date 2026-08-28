@@ -41,11 +41,15 @@ load_local_env()
 SECRET_KEY = 'django-insecure-9(($ndi6-!v!h+is^nhbt64=j2u%n43)mvul_q0pznkw_88m@k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['alihassan536.pythonanywhere.com', 'localhost', '127.0.0.1']
+# Allow hosts from environment or default to localhost
+ALLOWED_HOSTS_STR = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1')
+ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STR.split(',')]
 
-CSRF_TRUSTED_ORIGINS = ['https://alihassan536.pythonanywhere.com']
+# CSRF trusted origins from environment or default
+CSRF_TRUSTED_ORIGINS_STR = os.environ.get('CSRF_TRUSTED_ORIGINS', '')
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in CSRF_TRUSTED_ORIGINS_STR.split(',') if origin.strip()]
 
 
 # Application definition
