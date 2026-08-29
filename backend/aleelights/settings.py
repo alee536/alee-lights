@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Backend paths live under /backend; templates and assets live under /frontend.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -67,6 +69,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary',
     'core',
 ]
 
@@ -107,23 +110,13 @@ WSGI_APPLICATION = 'aleelights.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-if DEBUG:
-    # Development: SQLite
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+# Database: SQLite for both development and production
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-else:
-    # Production: PostgreSQL from DATABASE_URL environment variable
-    DATABASES = {
-        'default': dj_database_url.config(
-            default='sqlite:///db.sqlite3',
-            conn_max_age=600,
-            conn_health_checks=True,
-        )
-    }
+}
 
 
 # Password validation
@@ -168,8 +161,20 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = FRONTEND_DIR / 'media'
+# Cloudinary Configuration for image storage
+cloudinary.config(
+    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME', 'kbyvm3k2'),
+    api_key=os.environ.get('CLOUDINARY_API_KEY', '171842556279879'),
+    api_secret=os.environ.get('CLOUDINARY_API_SECRET', 'jtAEnTnjWrdxvq7iZgPxZ5c5Luk'),
+    secure=True
+)
+
+# Use Cloudinary for media storage in production, local filesystem in development
+if DEBUG:
+    MEDIA_URL = 'media/'
+    MEDIA_ROOT = FRONTEND_DIR / 'media'
+else:
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
