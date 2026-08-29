@@ -44,8 +44,13 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-9(($ndi6-!v!h+is^nhbt
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 # Allow hosts from environment or default to localhost
-ALLOWED_HOSTS_STR = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1')
-ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STR.split(',')]
+if DEBUG:
+    # Development: allow localhost and wildcard
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
+else:
+    # Production: read from environment and add fallbacks
+    ALLOWED_HOSTS_STR = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1')
+    ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STR.split(',') if host.strip()]
 
 # CSRF trusted origins from environment or default
 CSRF_TRUSTED_ORIGINS_STR = os.environ.get('CSRF_TRUSTED_ORIGINS', '')
